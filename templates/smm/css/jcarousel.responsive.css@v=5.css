@@ -1,0 +1,118 @@
+.jcarousel-wrapper {
+    margin: 0px auto 20px auto;
+    position: relative;
+}
+
+/** Carousel **/
+
+.jcarousel {
+    overflow: hidden;
+    width: 100%;
+    padding-top: 20px;
+}
+.jcarousel-wrapper::before {
+    right: 0px;
+    background: -webkit-gradient(linear,left top,right top,from(hsla(0,0%,100%,0)),to(#fff));
+    background: -o-linear-gradient(left,hsla(0,0%,100%,0) 0,#fff 100%);
+    background: linear-gradient(90deg,hsla(0,0%,100%,0) 0,#fff);
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 110px;
+    pointer-events: none;
+    z-index: 6;
+}
+.jcarousel-wrapper::after {
+    left: 0px;
+    background: -webkit-gradient(linear,left top,right top,from(#fff),to(hsla(0,0%,100%,0)));
+    background: -o-linear-gradient(left,#fff 0,hsla(0,0%,100%,0) 100%);
+    background: linear-gradient(90deg,#fff 0,hsla(0,0%,100%,0));
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 110px;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.jcarousel ul {
+    width: 10000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li {
+    float: left;
+    margin: 0px 5px;
+    border: 1px solid #fff;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.jcarousel img {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+}
+
+/** Carousel Controls **/
+
+.jcarousel-control-prev,
+.jcarousel-control-next {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    text-align: center;
+    color: #009dff;
+    text-decoration: none !important;
+    font: 54px/27px Arial, sans-serif;
+    z-index: 7;
+}
+
+.jcarousel-control-prev {
+    left: 15px;
+}
+
+.jcarousel-control-next {
+    right: 15px;
+}
+
+/** Carousel Pagination **/
+
+.jcarousel-pagination {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    margin: 0;
+}
+
+.jcarousel-pagination a {
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    height: 10px;
+    width: 30px;
+    line-height: 10px;
+    background: #009dff;
+    border-radius: 10px;
+    text-indent: -9999px;
+    margin-right: 7px;
+    opacity: .3;
+}
+
+.jcarousel-pagination a.active {
+    background: #009dff;
+    color: #fff;
+    opacity: 1;
+}
+.jcarousel282 li {
+    width: 282px; 
+}

@@ -1,0 +1,374 @@
+// JavaScript Document
+"use strict";
+
+jQuery(document).ready(function () {
+
+
+    //Keep track of last scroll
+    var lastScroll = 0;
+    var header = $("#header");
+    var headerfixed = $("#header-main-fixed");
+    var headerfixedbg = $(".header-bg");
+    var headerfixedtopbg = $(".top-header-bg");
+    call_ajax('#form','/cart2/','#top_icon_block');
+    $('div.jcarousel-wrapper:contains("emptylines")').html(' ');
+    try {
+    var jcarouselwidth=Math.floor(document.getElementById("jcarousel").offsetWidth/3);
+    //try{
+//    $('div.jcarousel-wrapper:contains("lines2")').html(' ');
+//    $('div.jcarousel-wrapper:contains("lines3")').html(' ');
+//    $('div.jcarousel-wrapper:contains("lines4")').html(' ');
+    if (jcarouselwidth>240){
+    $('.jli').css('width',jcarouselwidth+'px')
+    }
+    else {
+        $('.jli').css('width',3*jcarouselwidth+'px')
+    }
+    }
+        catch(e) {
+    ///    alert("sdfsdf");
+    }
+    //document.write('<style>');
+    //document.write('.jcarousel li{width: ');
+    //document.write(jcarouselwidth);
+    //document.write(' };</style>');
+    window.onresize = function( event ) {
+    try{
+    var jcarouselwidth=Math.floor(document.getElementById("jcarousel").offsetWidth/3);
+        if (jcarouselwidth>200){
+    $('.jli').css('width',jcarouselwidth+'px')
+    }
+    else {
+        $('.jli').css('width',3*jcarouselwidth+'px')
+    }
+    }
+    
+    catch(e) {
+    }
+    
+    };
+//!--    
+$('a[href*=#o]:not([href=#])').click(function() {
+ if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+   var target = $(this.hash);
+   target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+   var headerHeight = $('.header').height() + 150;
+   if (target.length) {
+     $('html,body').animate({
+       scrollTop: target.offset().top - headerHeight
+     }, 500, function() {
+       target.focus();
+     });
+     return false;
+   }
+  }
+});
+//!--		
+    
+    $(window).scroll(function () {
+        //Sets the current scroll position
+        var st = $(this).scrollTop();
+        //Determines up-or-down scrolling
+        if (st > lastScroll) {
+
+            //Replace this with your function call for downward-scrolling
+            if (st > 50) {
+                header.addClass("header-top-fixed");
+                header.find(".header-top-row").addClass("dis-n");
+                headerfixedbg.addClass("header-bg-fixed");
+                headerfixed.addClass("header-main-fixed");
+                headerfixedtopbg.addClass("top-header-bg-fix");
+            }
+        }
+        else {
+            //Replace this with your function call for upward-scrolling
+            if (st < 50) {
+                header.removeClass("header-top-fixed");
+                header.find(".header-top-row").removeClass("dis-n");
+                headerfixed.removeClass("header-main-fixed");
+                headerfixedbg.removeClass("header-bg-fixed");
+                headerfixedtopbg.removeClass("top-header-bg-fix");
+                //headerfixed.addClass("header-main-fixed")
+            }
+        }
+        //Updates scroll position
+        lastScroll = st;
+    });
+
+    // Header search open functions
+    $("#header-search").click(function () {
+        var $obj = $("#header-top-search");
+        if ($obj.hasClass("expanded")) {
+            $obj.removeClass("expanded");
+            $obj.slideUp({
+                duration: 300,
+                easing: "easeInQuad"
+            });
+        }
+        else {
+            $obj.addClass("expanded");
+            $obj.slideDown({
+                duration: 300,
+                easing: "easeInQuad"
+            });
+        }
+    });
+    $("#header-search-close").click(function () {
+        var $obj = $("#header-top-search");
+        if ($obj.hasClass("expanded")) {
+            $obj.removeClass("expanded");
+            $obj.slideUp({
+                duration: 300,
+                easing: "easeInQuad"
+            });
+        }
+        else {
+            $obj.addClass("expanded");
+            $obj.slideDown({
+                duration: 300,
+                easing: "easeInQuad"
+            });
+        }
+    });
+
+    if ( mobileDetect() ) {
+        $('.dropdown-toggle').click(function (e) {       
+            var link = $(this).attr('href');
+            if ( link != '' ) return;
+            e.preventDefault();
+            var el = $(this);
+            if (el.hasClass('js-isVis')) {
+                el.removeClass('js-isVis');
+                el.parent().removeClass('open');
+            } else {
+                el.addClass('js-isVis');
+                el.parent().addClass('open');
+            }
+        });
+
+        $('.navbar-main .dropdown-submenu > a').click(function (e){
+            var link = $(this).attr('href');
+
+            if ( link != '' ) return;
+
+            e.preventDefault();
+            var el = $(this).parent().find('.dropdown-menu');
+            if (el.hasClass('js-isVis')) {
+                el.hide(200);
+                el.removeClass('js-isVis');
+            } else {
+                el.show(200);
+                el.addClass('js-isVis');
+            }
+        });
+
+    } else {
+        $('.dropdown').hover(function () {
+            $(this).addClass('open');
+        }, function () {
+            $(this).removeClass('open');
+        });
+
+    }
+
+    $('.tool_tip').tooltip();
+
+    // Categories Menu Manipulations
+    $(".ul-side-category li a").click(function () {
+
+        var sm = $(this).next();
+        if (sm.hasClass("sub-category")) {
+            if (sm.css("display") === "none") {
+                $(this).next().slideDown();
+            }
+            else {
+
+                $(this).next().slideUp();
+                $(this).next().find(".sub-category").slideUp();
+                /*$(this).next().find(".categories-submenu").slideUp("normal", function() {
+                 $(this).parent().find(".icon-angle-down").removeClass("icon-angle-down").addClass("icon-angle-right");
+                 });*/
+            }
+
+            return false;
+        }
+        else {
+            return true;
+        }
+    })
+
+    $.fn.countTo = function (options) {
+        // merge the default plugin settings with the custom options
+        options = $.extend({}, $.fn.countTo.defaults, options || {});
+        // how many times to update the value, and how much to increment the value on each update
+        var loops = Math.ceil(options.speed / options.refreshInterval),
+            increment = (options.to - options.from) / loops;
+        return $(this).each(function () {
+            var _this = this,
+                loopCount = 0,
+                value = options.from,
+                interval = setInterval(updateTimer, options.refreshInterval);
+            function updateTimer() {
+                value += increment;
+                loopCount++;
+                $(_this).html(value.toFixed(options.decimals));
+                if (typeof (options.onUpdate) === 'function') {
+                    options.onUpdate.call(_this, value);
+                }
+
+                if (loopCount >= loops) {
+                    clearInterval(interval);
+                    value = options.to;
+                    if (typeof (options.onComplete) === 'function') {
+                        options.onComplete.call(_this, value);
+                    }
+                }
+            }
+        });
+    };
+
+    $.fn.countTo.defaults = {
+        from: 0, // the number the element should start at
+        to: 100, // the number the element should end at
+        speed: 1000, // how long it should take to count between the target numbers
+        refreshInterval: 100, // how often the element should be updated
+        decimals: 0, // the number of decimal places to show
+        onUpdate: null, // callback method for every time the element is updated,
+        onComplete: null // callback method for when the element finishes updating
+    };
+
+    (function(){ var widget_id = 'IS1uDzqZyt';var d=document;var w=window;function l(){var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}//эта строка обычная для кода JivoSite
+function zy(){
+    if(w.detachEvent){//поддержка IE8
+        w.detachEvent('onscroll',zy);
+        w.detachEvent('onmousemove',zy);
+        w.detachEvent('ontouchmove',zy);
+        w.detachEvent('onresize',zy);
+    }else {
+        w.removeEventListener("scroll", zy, false);
+        w.removeEventListener("mousemove", zy, false);
+        w.removeEventListener("touchmove", zy, false);
+        w.removeEventListener("resize", zy, false);
+    }
+    if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}
+    var cookie_date = new Date ( );
+    cookie_date.setTime ( cookie_date.getTime()+60*60*28*1000);
+    d.cookie = "JivoSiteLoaded=1;path=/;expires=" + cookie_date.toGMTString();
+}
+if (d.cookie.search ( 'JivoSiteLoaded' )<0){
+    if(w.attachEvent){// поддержка IE8
+        w.attachEvent('onscroll',zy);
+        w.attachEvent('onmousemove',zy);
+        w.attachEvent('ontouchmove',zy);
+        w.attachEvent('onresize',zy);
+    }else {
+        w.addEventListener("scroll", zy, {capture: false, passive: true});
+        w.addEventListener("mousemove", zy, {capture: false, passive: true});
+        w.addEventListener("touchmove", zy, {capture: false, passive: true});
+        w.addEventListener("resize", zy, {capture: false, passive: true});
+    }
+}else {zy();}
+})();
+});
+
+function mobileDetect() {
+    //return true;
+    var UA = navigator.userAgent.toLowerCase();
+    return (/android|webos|iris|bolt|mobile|iphone|ipad|ipod|iemobile|blackberry|windows phone|opera mobi|opera mini/i
+        .test(UA)) ? true : false ;
+}
+
+function addFav() {
+    return false;
+}
+function call_ajax(fname='#comment-form',furl='/otzyv.php',fres='#review_form') {
+	var msg   = $(fname).serialize();
+	$.ajax({
+        type: 'POST',
+        url: furl,
+        data: msg,
+    
+       success: function(data) {
+       $(fres).html(data);
+        },
+      error:  function(xhr, str){
+     
+          }
+     });
+}  
+
+
+function change_but_ex(id, max) {
+    var getvalue = $('#input-amount-'+id).val();
+    if (getvalue < max || getvalue==undefined) {
+        alert('Нельзя купить менее ' + max + ' единиц.');
+        //alert('Getvalue= ' + getvalue);
+        return;
+    }else{
+       // if (getvalue==1) getvalue=0;
+        $.ajax({
+            type:"POST",
+            url:"/emarket/basket/put/element/"+id+"/?template_id=31&no-redirect=1",
+            data:"amount="+getvalue,
+            success: function (res)
+            {
+                var winW = jQuery(window).width();
+                var winH = jQuery(window).height();
+
+                var objW = 400;
+                var objH = 157;
+
+                var left = (winW / 2) - (objW / 2);
+                var top = (winH / 2) - (objH / 2);
+
+                // Темная подложка
+                jQuery('<div id="b-success-added-mask"  class="b-success-added-mask" style="display: none;"></div>').css({
+                    "width" : "100%",
+                    "height" : winH,
+                    "opacity" : 0.7,
+                    "position" : "fixed",
+                    "background" : "black",
+                    "z-index" : "9",
+                    "top" : 0,
+                    "left": 0
+                }).appendTo("body").fadeIn();
+
+                // Окно с блоком
+            //<a onclick='+"'"+'call_ajax("#opism","/emarket/cart?template_id=20","#oformlenie"); $(document).find(".b-success-added").css({"display": "none","z-index" : "0"}); $(document).find(".b-success-added-mask").css({"display": "none","z-index" : "0"});'+"'"+' href="#oformlenie" title="Оформить заказ" class="b-success-added__order btn btn-default">Оформить заказ <i class="fa fa-check"></i></a> \
+
+                jQuery('\
+        <div id="b-success-added" class="b-success-added" style="display: none;">  \
+            <div class="clear"></div> \
+            <h4 class="raz">Товар добавлен</h4><a style="" href="javascript: void(0)" onclick='+"'"+'call_ajax("#sd","/cart2/","#top_icon_block"); $(document).find(".b-success-added").css({"display": "none","z-index" : "0"}); $(document).find(".b-success-added-mask").css({"display": "none","z-index" : "0"});'+"'"+' titlt="Купить еще" class="b-success-added__continue btn btn-default"><i class="fa fa-shopping-cart"></i> Купить еще</a> \
+            <a href="/emarket/cart/" title="Оформить заказ" class="b-success-added__order btn btn-default">Оформить заказ <i class="fa fa-check"></i></a> \
+            <div style="padding-top:30px;" class="clear"></div> \
+        </div> \
+    ').css({
+                    "position" : "fixed",
+                    "left" : left,
+                    "top" : top,
+                    "width": "400px",
+                    "padding": "10px",
+                    "border" : "1px solid #fff",
+                    "text-align" : "center",
+                    "font-size" : "14px",
+                    "background" : "#FFFFFF",
+                    "border-radius" : "3px",
+                    "z-index" : "100"
+                }).appendTo("body").fadeIn();
+
+                // Удаление\скрытие блоков
+                //jQuery('.b-success-added__continue').live("click", function (e) {
+                //    e.preventDefault();
+                //    jQuery("#b-success-added, #b-success-added-mask").fadeOut("fast", function() {
+                //        jQuery(this).remove()
+                //    });
+                //})
+                //location.reload();
+                //location.assign("http://doctorsmm.com/emarket/cart/");
+            }
+        });
+
+    }
+}
+
