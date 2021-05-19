@@ -547,8 +547,10 @@
 
   <script type="text/javascript">
     jQuery(document).on('page:load', function ($) {
-      $("#jivo-iframe-container").remove();
-      $("jdiv").remove();
+      setTimeout(() => {
+        $("#jivo-iframe-container").remove();
+        $("jdiv").remove();
+      }, 300)
     });
   </script>
 
