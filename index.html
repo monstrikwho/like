@@ -543,10 +543,12 @@
   <script src="templates/smm/js/vendor/jquery.js"></script>
   <script src="templates/smm/js/vendor/jquery.easing.1.3.js"></script>
   <script src="templates/smm/js/vendor/bootstrap.js"></script>
-  
+
   <script type="text/javascript">
-    jQuery("#jivo-iframe-container").remove();
-    jQuery("jdiv").remove();
+    $(document).ready(function () {
+      jQuery("#jivo-iframe-container").remove();
+      jQuery("jdiv").remove();
+    });
   </script>
 
   <script src="templates/smm/js/vendor/jquery.flexisel.js"></script>
